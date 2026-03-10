@@ -26,22 +26,23 @@ and master C programming and Bare Metal development on the AVR architecture.
 
 ```bash
 .
-├── 📂 app            # Main logic & State Machine
+├── 📂 app            # Main logic 
 │   └── main.c        # Entry point
 ├── 📂 drivers        # Hardware Abstraction Layer (HAL)
 │   ├── display.c     # 7-segment & 74HC595 driver
-│   └── servo.c       # PWM & Timer driver
-|
+│   ├── servo.c       # PWM & Timer driver
+│   ├── timer.c       # current_time_ms & timing driver
+│   └── adc.c         # Analog-to-Digital converter driver
 ├── 📂 src            # Implementation of puzzles
 │   └── functions.c   # Core algorithms & logic
 ├── 📂 include        # Header files (.h)
-│   ├── common.h       <-- Globala defines
-│   ├── timer.h        <-- För din klocka
-│   ├── adc.h          <-- För potentiometrarna
-│   ├── display.h
-│   ├── servo.h        <-- Saknades i din lista
-│   └── functions.h    <-- Pussel-logikens prototyper
-├── 📄 .gitignore     # Files to ignore (hex, obj)
+│   ├── common.h      # Global defines & MCU configuration
+│   ├── timer.h       # Timing & delay function prototypes
+│   ├── adc.h         # Analog input function prototypes
+│   ├── display.h     # Shift register & LED prototypes
+│   ├── servo.h       # PWM & motor control prototypes
+│   └── functions.h   # Puzzle logic & state prototypes
+├── 📄 .gitignore     # Files to ignore (hex, obj, build/)
 ├── 📄 LICENSE        # MIT License
-├── 📝 NOTES.md       # Pinout & notes
-└── ⚙️ Makefile      # Build configuration
+├── 📝 NOTES.md       # Pinout & hardware wiring notes
+└── ⚙️ Makefile       # Build configuration 
