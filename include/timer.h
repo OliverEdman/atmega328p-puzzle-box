@@ -3,10 +3,13 @@
 
 #include <stdint.h>
 
+// Initierar hårdvarutimern (Timer0) för 1ms tick
 void timer_init(void);
-uint32_t time_ms(void);
 
+// Hämtar systemtiden i millisekunder (atomär läsning)
+uint32_t timer_get_millis(void);
 
-#define current_time() time_ms()
+// Blockerande fördröjning
+void timer_delay_ms(uint32_t ms);
 
 #endif

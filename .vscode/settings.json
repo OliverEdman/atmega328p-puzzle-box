@@ -1,0 +1,13 @@
+{
+    "editor.fontFamily": "'Fixedsys Excelsior 3.01'",
+    "editor.fontSize": 16, // Fixedsys ser bäst ut i storlekar som 12, 16 eller 20
+    "editor.fontWeight": "normal",
+    "editor.fontLigatures": false,
+    "editor.letterSpacing": 0.5,
+    "editor.lineHeight": 22,
+    "editor.smoothScrolling": false, // Tar bort moderna animationer
+    "editor.cursorStyle": "block",   // Den klassiska fyrkantiga markören!
+    "editor.cursorBlinking": "solid",
+    "workbench.colorTheme": "Visual Studio Dark" // Markören blinkar inte mjukt, utan hårt
+}
+
