@@ -1,15 +1,22 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+#include <stdbool.h>
 #include <stdint.h>
 
-// Initierar hårdvarutimern (Timer0) för 1ms tick
+typedef struct timer timer_t;
+typedef void (*timer_callback_t)(void);
+
+
 void timer_init(void);
 
-// Hämtar systemtiden i millisekunder (atomär läsning)
-uint32_t timer_get_millis(void);
 
-// Blockerande fördröjning
-void timer_delay_ms(uint32_t ms);
+timer_t* timer_new(uint32_t timeout_ms, timer_callback_t callback);
+void timer_delete(timer_t** self);
+
+
+void timer_start(timer_t* self);
+void timer_stop(timer_t* self);
+void timer_restart(timer_t* self);
 
 #endif
