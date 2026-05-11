@@ -1,19 +1,35 @@
-#ifndef MORSE_H_
+#pragma once
 
-#define MORSE_H_
+/**
+ * @file morse.h
+ * @brief Morse code for ATmega328P.
+ * * This module provides functions to initialize and control a Morse code 
+ */
 
+#include <stdint.h>
 
-
-#include <stdbool.h>
-
-
-
+/**
+ * @brief Initializes the Morse code.
+ * * Configures the necessary GPIO pins as outputs and ensures the 
+ * Morse LED is (OFF).
+ */
 void morse_init(void);
 
-void morse_start(void); // Börjar spela upp sekvensen
+/**
+ * @brief Starts the Morse code.
+ * * Executes the Morse sequence.
+ * This function handles the timing for dots, dashes, and pauses.
+ * 
+ */
+void morse_start(void);
 
-void morse_stop(void); // Stänger av sekvensen
+/**
+ * @brief Must be called repeatedly in the main loop. 
+ */
+void morse_tick(void);
 
-
-
-#endif
+/**
+ * @brief Immediately stops the Morse code transmission.
+ * * Forces the signaling LED to LOW.
+ */
+void morse_stop(void);
