@@ -8,11 +8,10 @@ This project was developed as a core part of my Embedded Systems education. The 
 and master C programming and Bare Metal development on the AVR architecture.
 
 ### 🚀 Overview
-* **Memory Game (Simon Says):** Logic-based pattern recognition using tactile buttons and LEDs.
-* **Analog Challenge:** High-precision input handling using 4x Potentiometers (ADC).
+* **Memory Game (Simon Says):** Logic based pattern recognition using tactile buttons and LEDs.
+* **Analog Challenge:** High precision input handling using 2x Potentiometers (ADC).
 * **Proximity Task:** Distance measurement using Ultrasonic sensor (Input Capture/Interrupts).
 * **User Interface:** Real-time feedback via a 4-digit 7-segment display driven by a 74HC595 shift register (SPI logic).
-* **Actuator:** PWM-controlled servo motor for the locking bolt.
 
 ### 🛠️ Tech Stack & Hardware
 * **Microcontroller:** ATmega328P (8-bit AVR)
