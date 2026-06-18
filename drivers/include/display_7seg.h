@@ -4,22 +4,22 @@
 #include <stdint.h>
 
 /**
- * @brief Initierar displayen och dess beroenden (SPI).
+ * @brief Initialize the hardware.
  */
 void display_init(void);
 
 /**
- * @brief Skickar en siffra (0-9) till skiftregistret.
- * @param number Siffran som ska visas.
+ * @brief Send a number (0-9) to the shift regsiter.
+ * @param number to show on display.
  */
 void display_show_number(uint8_t number);
 
 /**
- * @brief Rensar displayen (stänger av alla segment).
+ * @brief Clear the display.(Turn off all segments).
  */
 void display_clear(void);
 /**
- * @brief ställar in vilken siffra på display man vill kuna skriva till
+ * @brief Choose wich postion u wanna show.
  */
 void display_write_pos(uint8_t number, uint8_t pos);
 
