@@ -1,41 +1,42 @@
 /**
  * @file timer.c
- * @brief Implementation av en inkapslad mjukvarutimer-modul för ATmega328P.
+ * @brief Implementation of the timer driver.
+ * @author Oliver Edman <o.edman@icloud.com>
+ *
+ * @note Licensed under the MIT License.
  */
 
-#include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/io.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
 
 #include "timer.h"
 
-#define MAX_TIMERS 3
+#define MAX_TIMERS 3 // change when needed
 
 //  (Opaque)
 struct timer {
-    uint32_t timeout_ms;       // Måltid för timern
-    timer_callback_t callback;  // Funktion som anropas vid timeout
-    bool is_enabled;            // Om timern aktivt räknar
-    bool in_use;                // Om platsen i poolen är upptagen
-    uint32_t elapsed_ms;        // Ackumulerad tid
+	uint32_t timeout_ms;
+	timer_callback_t callback;
+	bool is_enabled;
+	bool in_use;
+	uint32_t elapsed_ms;
 };
 
-// Statisk pool för att undvika dynamisk minnesallokering (malloc)
 static struct timer timer_pool[MAX_TIMERS];
 
 static volatile uint32_t system_ticks = 0;
 
-
 void timer_init(void) {
-    /* Nollställ poolen för säkerhets skull */
+
     for (int i = 0; i < MAX_TIMERS; i++) {
         timer_pool[i].in_use = false;
         timer_pool[i].is_enabled = false;
     }
 
-    /* Timer0 på ATmega328P */
+    /* Timer0 on ATmega328P */
     TCCR0A = (1 << WGM01);              // CTC-läge (Clear Timer on Compare)
     TCCR0B = (1 << CS01) | (1 << CS00); // Prescaler 64 (16MHz / 64 = 250kHz)
     OCR0A = 249;                        // (250kHz / 1000Hz) - 1 = 249 för 1ms
@@ -83,7 +84,7 @@ void timer_handler(void) {
     }
 }
 
-timer_t* timer_new(uint32_t timeout_ms, timer_callback_t callback) {
+struct timer* timer_new(uint32_t timeout_ms, timer_callback_t callback) {
     if (timeout_ms == 0 || callback == NULL) {
         return NULL;
     }
@@ -101,7 +102,7 @@ timer_t* timer_new(uint32_t timeout_ms, timer_callback_t callback) {
     return NULL;
 }
 
-void timer_delete(timer_t** self) {
+void timer_delete(struct timer** self) {
     if (self == NULL || *self == NULL) {
         return;
     }
@@ -109,46 +110,47 @@ void timer_delete(timer_t** self) {
     (*self)->in_use = false;
     (*self)->is_enabled = false;
     (*self)->elapsed_ms = 0;
+
     *self = NULL; 
 }
 
-bool timer_is_enabled(const timer_t* self) {
+bool timer_is_enabled(const struct timer* self) {
     return (self != NULL) ? self->is_enabled : false;
 }
 
-void timer_start(timer_t* self) {
+void timer_start(struct timer* self) {
     if (self != NULL) {
         self->is_enabled = true;
     }
 }
 
-void timer_stop(timer_t* self) {
+void timer_stop(struct timer* self) {
     if (self != NULL) {
         self->is_enabled = false;
     }
 }
 
-void timer_toggle(timer_t* self) {
+void timer_toggle(struct timer* self) {
     if (self != NULL) {
         self->is_enabled = !self->is_enabled;
     }
 }
 
-void timer_restart(timer_t* self) {
+void timer_restart(struct timer* self) {
     if (self != NULL) {
         self->elapsed_ms = 0;
         self->is_enabled = true;
     }
 }
 
-void timer_reset(timer_t* self) {
+void timer_reset(struct timer* self) {
     if (self != NULL) {
         self->elapsed_ms = 0;
         self->is_enabled = false;
     }
 }
 
-uint32_t timer_timeout_ms(const timer_t* self) {
+uint32_t timer_timeout_ms(const struct timer* self) {
     if (self == NULL) {
         return 0;
     }
@@ -156,7 +158,7 @@ uint32_t timer_timeout_ms(const timer_t* self) {
     return self->timeout_ms;
 }
 
-void timer_set_timeout_ms(timer_t* self, uint32_t timeout_ms) {
+void timer_set_timeout_ms(struct timer* self, uint32_t timeout_ms) {
     if (self != NULL && timeout_ms > 0) {
         self->timeout_ms = timeout_ms;
         self->elapsed_ms = 0;
