@@ -5,7 +5,7 @@
 #define UTILS_H_
 
 #include <stdbool.h>
-#include <stdint.h>
+
 
 /**
  * @brief Set bit in the given register.

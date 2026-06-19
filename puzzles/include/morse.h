@@ -5,7 +5,7 @@
  *
  * @note Licensed under the MIT License.
  */
-
+#include "gpio.h"
 #pragma once
 
 /**
@@ -16,7 +16,7 @@ void morse_init(void);
 /**
  * @brief Starts the Morse sequence.
  */
-void morse_start(void);
+void morse_start(gpio_t* led);
 
 /**
  * @brief Stops the sequence and turns off LEDs.

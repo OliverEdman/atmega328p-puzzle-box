@@ -25,17 +25,21 @@ set(SRC_FILES
     drivers/source/timer.c
     drivers/source/adc.c
     drivers/source/spi.c
+    drivers/source/gpio.c
 )
 
+# 1. Bygg elf-filen
 add_executable(main.elf ${SRC_FILES})
 
-
+# 2. Berätta för CMake exakt HUR filen main.hex skapas från main.elf
 add_custom_command(
-    TARGET main.elf POST_BUILD
+    OUTPUT main.hex
     COMMAND ${CMAKE_OBJCOPY} -j .text -j .data -O ihex main.elf main.hex
+    DEPENDS main.elf
     COMMENT "Generating main.hex from main.elf"
 )
 
+# 3. Flashtarget som nu förstår att main.hex är en fil som genereras ovan
 add_custom_target(flash
     COMMAND avrdude -p atmega328p -c arduino -P /dev/ttyACM0 -b 115200 -U flash:w:main.hex:i
     DEPENDS main.hex
