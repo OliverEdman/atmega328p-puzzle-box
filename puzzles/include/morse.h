@@ -1,13 +1,15 @@
-#ifndef MORSE_H_
-#define MORSE_H_
-
 /**
  * @file morse.h
- * @brief Morse signaling module using software timer callbacks.
+ * @brief Interface for the morse code.
+ * @author Oliver Edman <o.edman@icloud.com>
+ *
+ * @note Licensed under the MIT License.
  */
 
+#pragma once
+
 /**
- * @brief Initializes GPIOs and registers the timer for Morse code.
+ * @brief Initialize the GPIO pin for Morse LED and timer registers.
  */
 void morse_init(void);
 
@@ -21,4 +23,3 @@ void morse_start(void);
  */
 void morse_stop(void);
 
-#endif
