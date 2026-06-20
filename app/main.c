@@ -1,4 +1,5 @@
 #define F_CPU 16000000UL
+
 #include <avr/interrupt.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -9,7 +10,7 @@
 #include "pot_to_digits.h"
 
 int main(void) {
-
+    
     timer_init(); 
 
     gpio_t* morse_led = gpio_new(6, GPIO_DIRECTION_OUTPUT, NULL);
@@ -22,16 +23,19 @@ int main(void) {
 
     sei(); 
 
-    while (1) {
+    bool puzzle_handeled = false;
 
+    while (1) {
+        
         timer_handler();
 
-        
-        if (pot_to_digits_is_solved()) {
+        if (pot_to_digits_is_solved() && !puzzle_handeled) {
             
-            pot_to_digits_stop(); 
+            // TÄND LED ELLER GÖR NÅGOT KUL NÄR PUSSLE ÄR LÖST
             
-            gpio_write(puzzle_solved_led, true); 
+            gpio_write(puzzle_solved_led, true);
+            
+            puzzle_handeled = true; 
         }
     }
 
