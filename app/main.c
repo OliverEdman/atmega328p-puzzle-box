@@ -1,82 +1,41 @@
 #define F_CPU 16000000UL
-#include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
 #include <stddef.h>
+#include <stdbool.h>
 
-#include "spi.h"
 #include "timer.h"
 #include "gpio.h"
 #include "morse.h"
-
-const uint8_t SEGMENTS[] = {
-    0x3F, // 0
-    0x06, // 1
-    0x5B, // 2
-    0x4F, // 3
-    0x66, // 4
-    0x6D, // 5
-    0x7D, // 6
-    0x07, // 7
-    0x7F, // 8
-    0x6F  // 9
-};
-
-const uint8_t DIGITS[] = {
-    0xFE, // Siffra 1
-    0xFD, // Siffra 2
-    0xFB, // Siffra 3
-    0xF7  // Siffra 4
-};
-
-volatile uint8_t display_buffer[4] = {0x3F, 0x3F, 0x3F, 0x3F};
-uint16_t counter = 0;
-
-void display_multiplex_callback(void) {
-    static uint8_t current_digit = 0;
-
-    spi_write(DIGITS[current_digit]);
-    spi_write(display_buffer[current_digit]);
-    spi_latch();
-
-    current_digit++;
-    if (current_digit >= 4) {
-        current_digit = 0;
-    }
-}
-
-void counter_increment_callback(void) {
-    counter++;
-    if (counter > 9999) {
-        counter = 0;
-    }
-
-    display_buffer[0] = SEGMENTS[(counter / 1000) % 10]; 
-    display_buffer[1] = SEGMENTS[(counter / 100) % 10];
-    display_buffer[2] = SEGMENTS[(counter / 10) % 10];
-    display_buffer[3] = SEGMENTS[counter % 10];
-}
+#include "pot_to_digits.h"
 
 int main(void) {
-    
-    spi_init();
+
     timer_init(); 
 
     gpio_t* morse_led = gpio_new(6, GPIO_DIRECTION_OUTPUT, NULL);
+    gpio_t* puzzle_solved_led = gpio_new(7, GPIO_DIRECTION_OUTPUT, NULL);
 
-    struct timer *display_timer = timer_new(2, display_multiplex_callback);
-    struct timer *counter_timer = timer_new(500, counter_increment_callback);
+    pot_to_digits_init();
+    pot_to_digits_start();
 
-    timer_start(display_timer);
-    timer_start(counter_timer);
     morse_start(morse_led);
 
     sei(); 
 
     while (1) {
+
         timer_handler();
+
+        
+        if (pot_to_digits_is_solved()) {
+            
+            pot_to_digits_stop(); 
+            
+            gpio_write(puzzle_solved_led, true); 
+        }
     }
 
     gpio_delete(&morse_led);
+    gpio_delete(&puzzle_solved_led);
     return 0;
 }
