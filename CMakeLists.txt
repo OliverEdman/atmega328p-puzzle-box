@@ -26,8 +26,10 @@ set(SRC_FILES
     drivers/source/spi.c
     drivers/source/gpio.c
     drivers/source/display_7seg.c
+    drivers/source/uart.c
     puzzles/source/morse.c
     puzzles/source/pot_to_digits.c
+    
 )
 
 add_executable(main.elf ${SRC_FILES})

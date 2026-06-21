@@ -27,7 +27,7 @@ struct timer {
 
 static struct timer timer_pool[MAX_TIMERS];
 
-static volatile uint32_t system_ticks = 0;
+volatile uint32_t system_ticks = 0;
 
 void timer_init(void) {
 
