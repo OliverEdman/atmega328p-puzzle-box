@@ -13,9 +13,10 @@ and master C programming and Bare Metal development on the AVR architecture.
 * **Distance Calibration:** Distance measurement using Ultrasonic sensor (Input Capture/Interrupts).
 * **User Interface:** Real time feedback via a 4 digit 7-segment display driven by a 74HC595 shift register (SPI logic).
 * **Password Challange** Password entry system combining a 4x4 Matrix Keypad and an OLED Display via I2C.
+* **Servo Lock Mechanism:** The ultimate reward circuit. Upon successful password validation, a dedicated hardware PWM signal a servo motor to physically unlock the box.
+
 
 ### 📁 Project Structure
-
 
 ```bash
 
