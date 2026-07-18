@@ -1,5 +1,5 @@
 /**
- * @file ultrasonic.h
+ * @file distance.h
  * @brief Interface for an HC-SR04 ultrasonic distance sensor.
  * @author Oliver Edman <o.edman@icloud.com>
  *
