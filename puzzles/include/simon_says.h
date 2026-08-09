@@ -2,7 +2,6 @@
  * @file simon_says.h
  * @brief Interface for the simon says puzzle module.
  * @author Oliver Edman <o.edman@icloud.com>
- *
  * @note Licensed under the MIT License.
  */
 

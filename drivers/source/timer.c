@@ -14,7 +14,7 @@
 
 #include "timer.h"
 
-#define MAX_TIMERS 3 // change when needed
+#define MAX_TIMERS 8 // change when needed
 
 //  (Opaque)
 struct timer {
